@@ -1,0 +1,96 @@
+int motor2Pin1 = 12; 
+int motor2Pin2 = 14; 
+int enable2Pin = 13;
+
+int motor1Pin1 = 27; 
+int motor1Pin2 = 26; 
+int enable1Pin = 25;
+
+const int freq = 30000;
+const int pwmChannel = 0;
+const int resolution = 8;
+int dutyCycle = 255;
+
+int sensor1Pin = 32; 
+int sensor2Pin = 35; 
+int sensor3Pin = 34;
+int sensor4Pin = 23;
+int sensor5Pin = 33;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(enable1Pin, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
+  pinMode(enable2Pin, OUTPUT);
+  pinMode(sensor1Pin, INPUT);
+  pinMode(sensor2Pin, INPUT);
+  pinMode(sensor3Pin, INPUT);
+  pinMode(sensor4Pin, INPUT);
+  ledcSetup(pwmChannel, freq, resolution);
+  ledcAttachPin(enable1Pin, pwmChannel);
+  ledcAttachPin(enable2Pin, pwmChannel);
+  ledcWrite(pwmChannel, dutyCycle);
+}
+
+void loop() {
+  if (digitalRead(sensor1Pin) == 0 && digitalRead(sensor2Pin)== 0) 
+  {
+    moveParaDireita();
+    }
+  if (digitalRead(sensor3Pin) == 0 && digitalRead(sensor2Pin)== 0) 
+  {
+    moveParaEsquerda();
+    }
+   if (digitalRead(sensor1Pin) == 0 && digitalRead(sensor3Pin) == 0 && digitalRead(sensor2Pin)== 0) 
+  {
+    moveParaTras();
+    } 
+    if (digitalRead(sensor1Pin) == 0 && digitalRead(sensor3Pin) == 0) 
+  {
+    moveParaFrente();
+    } 
+  if (digitalRead(sensor4Pin) == 0) 
+  {
+    moveParaFrente();
+    }
+  else
+  {
+    moveParaFrente();
+    }
+}
+
+void moveParaFrente (){
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin2, LOW);
+  }
+
+void moveParaTras (){
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
+  digitalWrite(motor2Pin1, LOW);
+  delay(500);
+  }
+
+void moveParaDireita (){
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin2, HIGH);
+  digitalWrite(motor2Pin1, LOW);
+  delay(500);
+  }
+
+void moveParaEsquerda (){
+
+
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
+  delay(500);
+  }
